@@ -1,0 +1,13 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+{% load static %}
+
+<h2>{{ title }}</h2>
+<h3>{{ message }}</h3>
+
+<a href="https://www.afisha.ru/" target="_blank"> <img src="{% static 'app/content/afisha.jpg' %}" alt="Logo 1" style="width:50px;" /></a>
+<a href="https://culture.gosuslugi.ru/" target="_blank"> <img src="{% static 'app/content/kultura.png' %}" alt="Logo 1" style="width:50px;" /></a>
+<a href="https://afisha.yandex.ru/" target="_blank"> <img src="{% static 'app/content/yandex_afisha.png' %}" alt="Logo 1" style="width:50px;" /></a>
+
+{% endblock %}

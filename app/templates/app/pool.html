@@ -1,0 +1,38 @@
+{% extends "app/layout.html" %}
+{% block content %}
+
+{% if form != None %}
+
+<br><h2>Отправьте, пожалуйста, заполненную анкету</h2><br>
+<div>
+    <form method="post">
+        {% csrf_token %}
+        <label for="{{ form.name.id_for_label }}"> {{ form.name.label }}:</label> {{ form.name }} <br><br>
+        <label for="{{ form.age.id_for_label }}"> {{ form.age.label }}:</label> {{ form.age }} <br><br>
+        <label for="{{ form.gender.id_for_label }}"> {{ form.gender.label }}:</label> {{ form.gender }} <br><br>
+        <label for="{{ form.city.id_for_label }}"> {{ form.city.label }}:</label> {{ form.city }} <br><br>
+        <label for="{{ form.vopros.id_for_label }}"> {{ form.vopros.label }}:</label> {{ form.vopros }} <br><br>
+        <label for="{{ form.message.id_for_label }}"> {{ form.message.label }}:</label> {{ form.message }} <br><br>
+        <label for="{{ form.notice.id_for_label }}"> {{ form.notice.label }}:</label> {{ form.notice }} <br><br>
+        <label for="{{ form.email.id_for_label }}"> {{ form.email.label }}:</label> {{ form.email }} <br><br>
+        <input type="submit" value="Отправить">
+    </form>
+</div>
+
+{% else %}
+
+<br><h2>Благодарим за предоставленную информацию!</h2>
+<h3>Вы сообщили о себе следующее:</h3>
+<ul>
+    <li><span>Имя:</span> {{ data.name }} </li>
+    <li><span>Возраст:</span> {{ data.age }} </li>
+    <li><span>Пол:</span> {{ data.gender }} </li>
+    <li><span>Город:</span> {{ data.city }} </li>
+    <li><span>Посещаете культурные мероприятия:</span> {{ data.vopros }} </li>
+    <li><span>Пожелания по сайту:</span> {{ data.message }} </li>
+    <li><span>Получать рассылку на E-Mail:</span> {{ data.notice }} </li>
+    <li><span>Ваш E-Mail:</span> {{ data.email }} </li>
+</ul>
+
+{% endif %}
+{% endblock %}

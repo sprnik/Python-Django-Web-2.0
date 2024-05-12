@@ -1,0 +1,16 @@
+{% extends "app/layout.html" %}
+{% block content %}
+
+<hl>{{ title }}.</hl>
+<hr />
+<div>
+    <h2>Тизер спектакля "Морфий"</h2>
+    <VIDEO src="/media/morfiy.mp4" controls="controls" width="400" height="300" poster="/media/morfiy.png"></VIDEO>
+</div>
+<hr />
+<div>
+    <h2>Тизер спектакля "Смерть Тарелкина"</h2>
+    <VIDEO src="/media/tarelkin.mp4" controls="controls" width="400" height="300" poster="/media/tarelkin.png"></VIDEO>
+</div>
+
+{% endblock %}
