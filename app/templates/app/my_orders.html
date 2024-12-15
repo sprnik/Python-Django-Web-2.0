@@ -1,0 +1,52 @@
+{% extends "app/layout.html" %}
+{% block content %}
+<div class="container">
+    <h2 class="mb-4 text-center">Мои заказы</h2>
+    {% if orders %}
+    {% for order in orders %}
+    <div class="card mb-5 order-card">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <div class="order-header-info text-center">
+                <h2 class="mb-1 order-title">Заказ №{{ order.id }}</h2>
+                <small class="text-muted order-date">Дата заказа: {{ order.order_date }}</small>
+            </div>
+        </div>
+        <div class="card-body">
+            <h3 class="card-title order-section-title">Информация о заказе</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-unstyled order-info-list">
+                        <li><span class="order-info-label">Имя:</span> {{ order.first_name }}</li>
+                        <li><span class="order-info-label">Фамилия:</span> {{ order.last_name }}</li>
+                        <li><span class="order-info-label">Телефон:</span> {{ order.phone_number }}</li>
+                        <li><span class="order-info-label">Email:</span> {{ order.email }}</li>
+                        <li><span class="order-info-label">Общая стоимость:</span> <span class="order-total-value">{{ order.total_price }}</span></li>
+                    </ul>
+                </div>
+            </div>
+            <h3 class="card-title mt-4 order-section-title">Позиции заказа</h3>
+            <ul class="list-group list-group-flush">
+                {% for item in order.items.all %}
+                <li class="list-group-item d-flex flex-column align-items-center order-item">
+                    <div class="text-center">
+                        <small class="text-muted order-item-category">{{ item.event.category.name }}</small> <div class="mt-2"> </div>
+                        {% if item.event.image %}
+                        <img src="{{ item.event.image.url }}" alt="{{ item.event.title }}" class="img-thumbnail mb-2" style="max-width: 100px;">
+                        {% endif %}
+                        <h4 class="mb-0 order-item-title">{{ item.event.title }}</h4>
+                        <span class="badge badge-primary badge-pill order-item-price mt-1">{{ item.quantity }} x {{ item.price }}</span>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% if not forloop.last %}
+    <hr class="order-separator">
+    {% endif %}
+    {% endfor %}
+    {% else %}
+    <p class="alert alert-info">У вас пока нет заказов.</p>
+    {% endif %}
+</div>
+{% endblock %}

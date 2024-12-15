@@ -3,7 +3,7 @@
 
 {% if form != None %}
 
-<br><h2>Отправьте, пожалуйста, заполненную анкету</h2><br>
+<br><h2>Отправьте, пожалуйста, заполненную форму обратной связи</h2><br>
 <div>
     <form method="post">
         {% csrf_token %}
@@ -15,7 +15,7 @@
         <label for="{{ form.message.id_for_label }}"> {{ form.message.label }}:</label> {{ form.message }} <br><br>
         <label for="{{ form.notice.id_for_label }}"> {{ form.notice.label }}:</label> {{ form.notice }} <br><br>
         <label for="{{ form.email.id_for_label }}"> {{ form.email.label }}:</label> {{ form.email }} <br><br>
-        <input type="submit" value="Отправить">
+        <input type="submit" id='button' value="Отправить">
     </form>
 </div>
 
@@ -35,4 +35,38 @@
 </ul>
 
 {% endif %}
+<script>
+    $('#button').mouseover(function () {
+        $(this).css('background', 'white');
+        $(this).css('color', 'blue');
+    });
+    $('#button').mouseout(function () {
+        $(this).css('background', '');
+        $(this).css('color', '');
+    });
+    $('#id_name').focus(function () {
+        $(this).css('background', 'aliceblue');
+    });
+    $('#id_name').blur(function () {
+        $(this).css('background', '');
+    });
+    $('#id_city').focus(function () {
+        $(this).css('background', 'aliceblue');
+    });
+    $('#id_city').blur(function () {
+        $(this).css('background', '');
+    });
+    $('#id_message').focus(function () {
+        $(this).css('background', 'aliceblue');
+    });
+    $('#id_message').blur(function () {
+        $(this).css('background', '');
+    });
+    $('#id_email').focus(function () {
+        $(this).css('background', 'aliceblue');
+    });
+    $('#id_email').blur(function () {
+        $(this).css('background', '');
+    });
+</script>
 {% endblock %}

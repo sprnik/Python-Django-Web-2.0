@@ -1,0 +1,14 @@
+{% extends "app/layout.html" %}
+{% block content %}
+<h1>{{ category.name }}</h1>
+<p>{{ category.description }}</p>
+<div class="row">
+    {% for event in events %}
+    <div class="col-md-4">
+        <div class="event-card">
+            <li><a href="{% url 'event_detail' event.slug %}">{{ event.title }}</a></li>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

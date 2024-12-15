@@ -3,20 +3,17 @@ body {
     padding-bottom: 20px;
 }
 
-/* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
     max-width: 280px;
 }
 
-/* styles for validation helpers */
 .field-validation-error {
     color: #b94a48;
 }
@@ -30,7 +27,7 @@ input.input-validation-error {
 }
 
 input[type="checkbox"].input-validation-error {
-    border: 0 none;
+    border: 0;
 }
 
 .validation-summary-errors {
@@ -43,4 +40,180 @@ input[type="checkbox"].input-validation-error {
 
 h5 {
     color: #0b5394;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+    nav ul li {
+        margin-right: 20px;
+        position: relative;
+    }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+            padding: 10px;
+        }
+
+            nav ul li a:hover {
+                background-color: #f0f0f0;
+            }
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 0;
+    z-index: 1000;
+    min-width: 150px;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu li {
+    margin: 0;
+}
+
+    .dropdown-menu li a {
+        padding: 10px;
+        display: block;
+    }
+
+        .dropdown-menu li a:hover {
+            background-color: #2e2e2e;
+        }
+
+.event-image {
+    display: block;
+    max-width: 500px;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.event-description p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.event-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.order-card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.order-separator {
+    border-top: 1px solid #ddd;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.order-header-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.order-title {
+    font-size: 3rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+
+.order-date {
+    font-size: 1.5rem;
+    color: #9c9c9c;
+}
+
+.order-total {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.order-section-title {
+    font-size: 2rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 0.8rem;
+}
+
+.order-info-list li {
+    margin-bottom: 0.5rem;
+}
+
+.order-info-label {
+    font-weight: 500;
+    color: #555;
+    margin-right: 0.5rem;
+}
+
+.order-total-value {
+    font-weight: 600;
+    color: #007bff;
+    font-size: 1.5rem;
+}
+
+.order-item {
+    border: 1px solid #eee;
+    border-radius: 3px;
+    padding: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.order-item-title {
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.order-item-category {
+    font-size: 1.5rem;
+    color: #777;
+}
+
+.order-item-price {
+    font-size: 1rem;
+}
+
+/* Добавим стили для центрирования заголовка "Мои заказы" */
+h2.mb-4.text-center {
+    text-align: center; /* Центрируем текст */
+}
+
+.order-card .card-body {
+    padding-left: 2rem; /* Отступ слева в card-body */
+    padding-right: 2rem; /* Отступ справа в card-body */
+    padding-bottom: 2rem;
+}
+
+.order-item {
+    /* Убрали justify-content-between */
+}
+
+.order-item > div:first-child {
+        /* Центрируем элементы внутри первого div */
+}
+
+.order-card .card-header {
+    padding-left: 2rem; /* Отступ слева в card-header */
+    padding-right: 2rem; /* Отступ справа в card-header */
 }

@@ -24,10 +24,10 @@ class AnketaForm(forms.Form):
     name = forms.CharField(label='Ваше имя', min_length=2, max_length=100)
     age_choices = [(i, str(i)) for i in range(18, 101)]  # Создаем список возможных значений от 18 до 100 лет
     age = forms.ChoiceField(choices=age_choices, label='Выберите ваш возраст')
-    gender = forms.ChoiceField(label='Ваш пол', choices=[('1', 'Мужской'),('2', 'Женский')], widget=forms.RadioSelect, initial=1)
+    gender = forms.ChoiceField(label='Ваш пол', choices=[('Мужской', 'Мужской'),('Женский', 'Женский')], widget=forms.RadioSelect, initial=1)
     city = forms.CharField(label='Ваш город', min_length=2, max_length=100)
     vopros = forms.ChoiceField(label='Как часто вы посещаете различные культурные мероприятия?', 
-                               choices=(('1', 'Не посещаю вообще'), ('2', '1-2 раза в год'), ('3', 'Раз в пару месяцев'), ('4', 'Раз в месяц'), ('5', 'Больше одного раза в месяц')))
+                               choices=(('Не посещаю вообще', 'Не посещаю вообще'), ('1-2 раза в год', '1-2 раза в год'), ('Раз в пару месяцев', 'Раз в пару месяцев'), ('Раз в месяц', 'Раз в месяц'), ('Больше одного раза в месяц', 'Больше одного раза в месяц')))
     message = forms.CharField(label='Ваши пожелания по сайту', widget=forms.Textarea(attrs={'rows':12, 'cols':20}))
     notice = forms.BooleanField(label='Получать рассылку о новых мероприятиях на почту?', required=False)
     email = forms.EmailField(label='Ваш E-Mail', min_length=7)
@@ -45,3 +45,9 @@ class BlogForm(forms.ModelForm):
         model = Blog # используемая модель
         fields = ('title', 'description', 'content', 'image',) # заполняемые поля
         labels = {'title': "Заголовок", 'description': "Краткое содержание", 'content': "Полное содержание", 'image': "Картинка"}
+        
+from .models import Order
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['first_name', 'last_name', 'phone_number', 'email']

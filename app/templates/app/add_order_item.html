@@ -1,0 +1,47 @@
+{% extends "app/layout.html" %}
+{% block content %}
+<div class="container">
+    <h2>Добавить товар к заказу №{{ order.id }}</h2>
+    <form method="post" id="add-item-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="event_id">Выберите мероприятие:</label>
+            <select class="form-control" id="event_id" name="event_id">
+                {% for event in events %}
+                <option value="{{ event.id }}">{{ event.title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="quantity">Количество:</label>
+            <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1">
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить</button>
+    </form>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#add-item-form').submit(function(event) {
+        event.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+            url: "{% url 'add_order_item' order.id %}",
+            type: 'POST',
+            data: formData,
+            success: function(data) {
+                if (data.success) {
+                    alert('Товар успешно добавлен!');
+                    window.location.href = "{% url 'order_detail' order.id %}"; // Перенаправляем на страницу деталей заказа
+                } else {
+                    alert('Ошибка: ' + data.error);
+                }
+            },
+            error: function() {
+                alert('Ошибка при отправке запроса.');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

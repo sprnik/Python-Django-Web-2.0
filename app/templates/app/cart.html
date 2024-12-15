@@ -1,0 +1,85 @@
+{% extends "app/layout.html" %}
+{% block content %}
+<div class="container">
+    <h2>Корзина</h2>
+    {% if cart_items %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>Мероприятие</th>
+                    <th>Количество</th>
+                    <th>Цена</th>
+                    <th>Итого</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            {% if item.event.image %}
+                            <img src="{{ item.event.image.url }}" alt="{{ item.event.title }}" class="img-thumbnail mr-3" style="max-width: 80px;">
+                            {% endif %}
+                            <div>
+                                <h5 class="mb-0">{{ item.event.title }}</h5>
+                                <small class="text-muted">{{ item.event.category.name }}</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <input type="number" class="form-control quantity-input" value="{{ item.quantity }}" min="0" data-event-id="{{ item.event.id }}" style="width: 80px;">
+                    </td>
+                    <td>{{ item.event.price }}</td>
+                    <td>{{ item.item_price }}</td>
+                    <td><a href="{% url 'remove_from_cart' item.event.id %}" class="btn btn-danger btn-sm">Удалить</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot class="font-weight-bold">
+                <tr>
+                    <td colspan="3" class="text-right"><strong>Итого:</strong></td>
+                    <td><strong>{{ total_price }}</strong></td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="text-right">
+        <a href="{% url 'checkout' %}" class="btn btn-primary">Оформить заказ</a>
+    </div>
+    {% else %}
+    <p class="alert alert-info">Ваша корзина пуста.</p>
+    {% endif %}
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+        $(document).ready(function() {
+            $('.quantity-input').change(function() {
+                var eventId = $(this).data('event-id');
+                var quantity = $(this).val();
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "update_cart" %}',
+                    data: {
+                        'event_id': eventId,
+                        'quantity': quantity,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert('Ошибка обновления корзины: ' + data.error);
+                        }
+                    },
+                    error: function() {
+                        alert('Ошибка при отправке запроса.');
+                    }
+                });
+            });
+        });
+</script>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends "app/layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="card mb-5 order-card">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <div class="order-header-info text-center">
+                <h2 class="mb-1 order-title">Заказ №{{ order.id }}</h2>
+                <small class="text-muted order-date">Дата заказа: {{ order.order_date }}</small>
+            </div>
+        </div>
+        <div class="card-body">
+            <h3 class="card-title order-section-title">Информация о заказе</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-unstyled order-info-list">
+                        <li><span class="order-info-label">Имя:</span> {{ order.first_name }}</li>
+                        <li><span class="order-info-label">Фамилия:</span> {{ order.last_name }}</li>
+                        <li><span class="order-info-label">Телефон:</span> {{ order.phone_number }}</li>
+                        <li><span class="order-info-label">Email:</span> {{ order.email }}</li>
+                        <li><span class="order-info-label">Общая стоимость:</span> <span class="order-total-value">{{ order.total_price }}</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 class="card-title mt-4 order-section-title">Позиции заказа</h3>
+            <ul class="list-group list-group-flush" id="order-items-list">
+                {% for item in order.items.all %}
+                <li class="list-group-item d-flex flex-column align-items-center order-item" data-item-id="{{ item.id }}">
+                    <div class="text-center">
+                        <small class="text-muted order-item-category">{{ item.event.category.name }}</small>
+                        <div class="mt-2"></div>
+                        {% if item.event.image %}
+                        <img src="{{ item.event.image.url }}" alt="{{ item.event.title }}" class="img-thumbnail mb-2" style="max-width: 100px;">
+                        {% endif %}
+                        <h4 class="mb-0 order-item-title">{{ item.event.title }}</h4>
+                        <div class="d-flex align-items-center justify-content-center">
+                            <button class="btn btn-sm btn-danger mr-2 remove-item-btn" data-item-id="{{ item.id }}">-</button>
+                            <span class="badge badge-primary badge-pill order-item-price">{{ item.quantity }}</span>
+                            <button class="btn btn-sm btn-success ml-2 add-item-btn" data-item-id="{{ item.id }}">+</button>
+                        </div>
+                        <span class="order-item-price"> x {{ item.price }}</span>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="text-center mb-4"> <a href="{% url 'add_order_item' order.id %}" class="btn btn-primary">Добавить товар</a> </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('.add-item-btn').click(function() {
+            var itemId = $(this).data('item-id');
+            updateItemQuantity(itemId, 1);
+        });
+
+        $('.remove-item-btn').click(function() {
+            var itemId = $(this).data('item-id');
+            updateItemQuantity(itemId, -1);
+        });
+
+        function updateItemQuantity(itemId, quantityChange) {
+            $.ajax({
+                url: '/update_order_item/' + itemId + '/',
+                type: 'POST',
+                data: {
+                    'quantity_change': quantityChange,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(data) {
+                    if (data.success) {
+                        var $item = $('[data-item-id="' + itemId + '"]');
+                        var $quantitySpan = $item.find('.order-item-price:first');
+                        var currentQuantity = parseInt($quantitySpan.text());
+                        var newQuantity = currentQuantity + quantityChange;
+
+                        if (newQuantity > 0) {
+                            $quantitySpan.text(newQuantity);
+                        } else {
+                            $item.remove();
+                        }
+
+                        $('.order-total-value').text(data.order_total);
+                    } else {
+                        alert('Ошибка обновления количества товара: ' + data.error);
+                    }
+                },
+                error: function() {
+                    alert('Ошибка при отправке запроса.');
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
